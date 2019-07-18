@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 interface CriteriaInterface
 {
     /**
-     * @param Model $model
-     * @return mixed
+     * @param Builder $q
+     * @return Builder
      */
     public function apply(Builder $q): Builder;
 }

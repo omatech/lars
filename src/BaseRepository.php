@@ -6,6 +6,7 @@ use RuntimeException;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Omatech\Lars\Contracts\CriteriaInterface;
 use Omatech\LaravelStatusable\App\Models\StatusHistory;
 
 abstract class BaseRepository
@@ -63,13 +64,13 @@ abstract class BaseRepository
         return $this->criterias;
     }
 
-    public function pushCriteria($criteria)
+    public function pushCriteria(CriteriaInterface $criteria)
     {
         $this->criterias->push($criteria);
         return $this;
     }
 
-    public function popCriteria($criteria)
+    public function popCriteria(CriteriaInterface $criteria)
     {
         $this->criterias = $this->criterias->reject(function ($item) use ($criteria) {
             if (is_object($item) && is_string($criteria)) {

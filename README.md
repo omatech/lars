@@ -1,11 +1,9 @@
 # Laravel Repository System
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/omatech/lars.svg?style=flat-square)](https://packagist.org/packages/omatech/lars)
-[![Build Status](https://img.shields.io/travis/omatech/lars/master.svg?style=flat-square)](https://travis-ci.org/omatech/lars)
-[![Quality Score](https://img.shields.io/scrutinizer/g/omatech/lars.svg?style=flat-square)](https://scrutinizer-ci.com/g/omatech/lars)
-[![Total Downloads](https://img.shields.io/packagist/dt/omatech/lars.svg?style=flat-square)](https://packagist.org/packages/omatech/lars)
+**LARS** abstract the data layer, making it easy to maintain.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/omatech/lars.svg?style=flat-square)](https://packagist.org/packages/omatech/lars)
+[![Total Downloads](https://img.shields.io/packagist/dt/omatech/lars.svg?style=flat-square)](https://packagist.org/packages/omatech/lars)
 
 ## Installation
 
@@ -17,14 +15,49 @@ composer require omatech/lars
 
 ## Usage
 
+Create your own repository class extending BaseRepository class, use the model function to set the eloquent model for the repository.
+
 ``` php
-// Usage description here
+class Repository extends BaseRepository
+{
+    public function model() : String
+    {
+        return Model::class;
+    }
+}
 ```
 
-### Testing
+Now you can create your own function using query builder easily.
 
-``` bash
-composer test
+``` php
+public function method()
+{
+    return $this->query()->get();
+}
+```
+
+### Criterias
+
+Create a criteria implementing the interface CriteriaInterface.
+With the apply function you can filter by your own criteria.
+
+``` php
+public class Criteria implements CriteriaInterface
+{
+    public function apply(Builder $q) : Builder
+    {
+        return $q->where('role', 'admin');
+    }
+}
+```
+
+Then use your criteria.
+
+``` php
+public function method()
+{
+    return $this->pushCriteria(new Criteria)->query()->get();
+}
 ```
 
 ### Changelog
@@ -47,7 +80,3 @@ If you discover any security related issues, please email cbohollo@omatech.com i
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
-
-## Laravel Package Boilerplate
-
-This package was generated using the [Laravel Package Boilerplate](https://laravelpackageboilerplate.com).

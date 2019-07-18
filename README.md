@@ -32,7 +32,8 @@ Now you can create your own function using query builder easily.
 ``` php
 public function method()
 {
-    return $this->query()->get();
+    return $this->query()
+                ->get();
 }
 ```
 
@@ -51,12 +52,59 @@ public class Criteria implements CriteriaInterface
 }
 ```
 
-Then use your criteria.
+#### Use your criteria
 
 ``` php
 public function method()
 {
-    return $this->pushCriteria(new Criteria)->query()->get();
+    return $this->pushCriteria(new FooCriteria)
+                ->query()
+                ->get();
+}
+```
+
+#### List applied criterias
+
+``` php
+public function method()
+{
+    return $this->getCriterias();
+}
+```
+
+#### Remove an applied criteria
+
+``` php
+public function method()
+{
+    return $this->pushCriteria(new FooCriteria)
+                ->popCriteria(new FooCriteria)
+                ->query()
+                ->get();
+}
+```
+
+#### Remove all applied criterias
+
+``` php
+public function method()
+{
+    return $this->pushCriteria(new FooCriteria)
+                ->pushCriteria(new BarCriteria)
+                ->resetCriteria()
+                ->query()
+                ->get();
+}
+```
+
+#### Global criterias for all methods in repository
+
+It is possible to apply a criteria to all methods using the construct method of the repository.
+
+``` php
+public function __construct()
+{
+    $this->pushCriteria(new FooCriteria);
 }
 ```
 

@@ -74,12 +74,12 @@ abstract class BaseRepository
     {
         $this->criterias = $this->criterias->reject(function ($item) use ($criteria) {
             if (is_object($item) && is_string($criteria)) {
-                return get_class($item) === $criteria;
+                return $item::class === $criteria;
             }
             if (is_string($item) && is_object($criteria)) {
-                return $item === get_class($criteria);
+                return $item === $criteria::class;
             }
-            return get_class($item) === get_class($criteria);
+            return $item::class === $criteria::class;
         });
 
         return $this;

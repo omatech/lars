@@ -92,7 +92,7 @@ abstract class BaseRepository
      */
     public function resetCriteria()
     {
-        $this->criteria = new Collection();
+        $this->criterias = new Collection();
         return $this;
     }
 
